@@ -5,8 +5,9 @@ import org.flim.gestion_proyectos.entity.Usuario;
 import java.util.List;
 
 public interface IUsuarioService {
-    List<Usuario> listarUsuario();
-    Usuario buscarUsuarioporId(Integer id);
-    void guardarUsuario(Usuario usuario);
-    void eliminarUsuario(Usuario usuario);
+    public List<Usuario> listarUsuario();
+    public Usuario buscarUsuarioporId(Integer codigo);
+    public Usuario buscarUsuarioporNombreYClave(String nombre, String clave);
+    public void guardarUsuario(Usuario usuario);
+    public void eliminarUsuario(Usuario usuario);
 }

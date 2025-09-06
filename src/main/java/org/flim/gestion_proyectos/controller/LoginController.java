@@ -28,7 +28,7 @@ public class LoginController {
 
     @PostConstruct
     public void init(){
-        cargarDatos();
+        logger.info("Iniciando login controller");
     }
 
     public List<Usuario> getUsuarios() {
@@ -40,15 +40,14 @@ public class LoginController {
     }
 
     public void verificarDatos(String nombreUsuario, String contrasenia ){
-        //Trato de manejar posibles errores que puedan presentarse si ingresan
-        //valores incorrectos
-        try {
-            if(!nombreUsuario.isBlank() && !(contrasenia.isBlank())){
-                Usuario usuarioIngresado = usuarioService.
+        if(!nombreUsuario.isBlank() && !(contrasenia.isBlank())){
+            Usuario usuarioIngresado = usuarioService.buscarUsuarioporNombreYClave(nombreUsuario, contrasenia);
+            if(usuarioIngresado != null){
+                logger.info("Usuario: "+usuarioIngresado.toString());
+                //Supongo que por aquí iría el cambio de vista o un boolean para verificarlo
             }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
         }
+
     }
 
 }
