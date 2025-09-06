@@ -16,7 +16,10 @@ public class Proyecto {
     @Column(name = "idProyecto")
     private Integer idProyecto;
 
+    @ManyToOne
+    @JoinColumn(name = "idUsuario", referencedColumnName = "idUsuario")
     private Integer idUsuario;
+
     private String nombre;
     private String descripcion;
     private String visibilidad;
