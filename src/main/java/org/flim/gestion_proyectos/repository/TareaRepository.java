@@ -1,0 +1,11 @@
+package org.flim.gestion_proyectos.repository;
+
+import org.flim.gestion_proyectos.entity.Tarea;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+
+public interface TareaRepository extends JpaRepository<Tarea, Integer> {
+
+    List<Tarea> findByFichaIdFicha(Integer idFicha);
+}
