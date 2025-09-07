@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<h:html xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+        xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Registro Cliente</title>
+        <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css"/>
+        <link rel="stylesheet" href="https://unpkg.com/primeflex/themes/primeone-light.css"/>
+    </h:head>
+    <h:body style="background-color: #F2F2F2;">
+        <div class="card">
+            <h:form id = "formulario-proyectos">
+                <p:growl id = "mensaje-emergente" showDetails="true"/>
+                <!--                barra de menu-->
+                <div class="card">
+                    <p:menubar style="background-color: #A7CCED;">
+                        <!--                        boton para agregar un nuevo cliente-->
+                        <p:menuitem value="Nuevo Proyecto" icon="pi pi-fw pi-plus"
+                                    actionListener="#{proyectosController.agregarProyecto()}"
+                                    update=":formulario-modal:ventana-proyecto"
+                                    oncomplete="PF('ventanaModalProyecto').show()"/>
+                        <p:menuitem value="LogOut" icon="pi pi-fw pi-user"
+                                    update=":formulario-proyectos:tabla-proyectos"
+                                    actionListener="#{proyectosController.cargarProyectos()}"
+                                    onclick="window.location.href = '/index.xhtml';"/>
+                    </p:menubar>
+                </div>
+                <!--                Tabla de cliente-->
+                <div class="card">
+                    <p:dataTable value="#{proyectosController.proyectos}" var="proyecto"
+                                 id="tabla-proyectos" widgetVar="proyectoTabla">
+                        <f:facet name="header">
+                            <div class="flex justify-content-center flex-wrap
+                                        card-container yellow-container">
+                                <div class="flex align-items-center justify-content-center
+                                        w-20rem h4rem  font-bold m-2
+                                        text-gray-900 border-round"
+                                        style="background-color: #82A0BC;">
+                                    <h3>Proyectos</h3>
+                                </div>
+                            </div>
+                        </f:facet>
+
+                        <p:column headerText="ID">
+                            <h:outputText value="#{proyecto.idProyecto}"/>
+                        </p:column>
+                        <p:column headerText="NOMBRE">
+                            <h:outputText value="#{proyecto.nombre}"/>
+                        </p:column>
+                        <p:column headerText="DESCRIPCIÓN">
+                            <h:outputText value="#{proyecto.descripcion}"/>
+                        </p:column>
+                        <p:column headerText="VISIBILIDAD">
+                            <h:outputText value="#{proyecto.visibilidad}"/>
+                        </p:column>
+                        <p:column>
+                            <p:commandButton value="Editar" icon="pi pi-pencil"
+                                             update=":formulario-modal:ventana-proyecto"
+                                             process="@this"
+                                             oncomplete="PF('ventanaModalProyecto').show()"
+                                             class="ui-button-primary"
+                                             style="margin-right:.5rem">
+                                <f:setPropertyActionListener
+                                        value="#{proyecto}"
+                                        target="#{proyectosController.proyectoSeleccionado}"/>
+                            </p:commandButton>
+                            <p:commandButton value="Eliminar" icon="pi pi-trash"
+                                             class="ui-button-danger"
+                                             process="@this"
+                                             oncomplete="PF('ventanaEliminarProyecto').show()">
+                            <f:setPropertyActionListener
+                                            value="#{proyecto}"
+                                            target="#{proyectosController.proyectoSeleccionado}"/>
+
+                            </p:commandButton>
+                            <p:commandButton value="Ingresar a Proyecto" icon="pi pi-angle-double-right"
+                                             class="ui-button-success"
+                                             style="margin-top: 0.8rem;"
+                                             action="#{proyectosController.abrirProyecto}"
+                                             ajax="false">
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </div>
+            </h:form>
+            <h:form id="formulario-modal">
+                <p:dialog header="Detalle Proyectos" showEffect="fade" modal="true" widgetVar="ventanaModalProyecto" responsive="true">
+                    <p:outputPanel id="ventana-proyecto" class="ui-fluid">
+                        <div class="field">
+                            <p:outputLabel for="nombre">Nombre</p:outputLabel>
+                            <p:inputText id="nombre"
+                                         value="#{proyectosController.proyectoSeleccionado.nombre}"
+                                         required="true"/>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="descripcion">Descripción</p:outputLabel>
+                            <p:inputText id="descripcion"
+                                         value="#{proyectosController.proyectoSeleccionado.descripcion}"
+                                         required="true"/>
+                        </div>
+                        <div class="field">
+                            <div class="field col-12 md:col-4">
+                                <p:outputLabel for="@next" value="Visibilidad"/>
+                                <p:selectOneMenu id="option" value="#{proyectosController.proyectoSeleccionado.visibilidad}"
+                                                    required="true" style="width: 15rem;">
+                                    <f:selectItem itemLabel="Selecciona una" itemValue="#{null}"/>
+                                    <f:selectItem itemLabel="Publico" itemValue="Publico"/>
+                                    <f:selectItem itemLabel="Privado" itemValue="Privado"/>
+                                    <f:selectItem itemLabel="Laboral" itemValue="Laboral"/>
+                                    <f:facet name="footer">
+                                        <p:divider styleClass="mt-0" />
+                                        <h:outputText value="3 opciones" style="font-weight:bold;"/>
+                                    </f:facet>
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
+                    </p:outputPanel>
+                    <f:facet name="footer">
+                        <p:commandButton value="Guardar" icon="pi pi-check"
+                                         process="ventana-proyecto @this"
+                                         actionListener="#{proyectosController.guardarProyecto}"
+                                         oncomplete="PF('ventanaModalProyecto').hide()"/>
+                        <p:commandButton value="Cancelar" icon="pi pi-times"
+                                            onclick="PF('ventanaModalProyecto').hide()"
+                                            class="ui-button-secondary" type="button"/>
+                    </f:facet>
+                </p:dialog>
+                <p:confirmDialog
+                                widgetVar="ventanaEliminarProyecto"
+                                showEffect="fade" width="300"
+                                message="¿Desea eliminar este Proyecto"
+                                header="CONFIRMACIÓN" severity="warn">
+                    <p:commandButton value="Si" icon="pi pi-check"
+                                        actionListener="#{proyectosController.eliminarProyecto}"
+                                        process="@this"
+                                        oncomplete="PF('ventanaEliminarProyecto').hide()"/>
+                    <p:commandButton value="No" icon="pi pi-times"
+                                     onclick="PF('ventanaEliminarProyecto').hide()"
+                                     type="button"/>
+                </p:confirmDialog>
+            </h:form>
+        </div>
+    </h:body>
+</h:html>

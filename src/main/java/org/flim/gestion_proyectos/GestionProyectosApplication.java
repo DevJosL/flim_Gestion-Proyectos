@@ -3,7 +3,7 @@ package org.flim.gestion_proyectos;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
+//@SpringBootApplication
 public class GestionProyectosApplication {
 
 	public static void main(String[] args) {
