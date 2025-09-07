@@ -10,5 +10,5 @@ public interface ProyectoRepository extends JpaRepository<Proyecto, Integer> {
     //Remplazo del DAO
 
     //JPA SPRING lo traduce como select p from Proyectos p where p.idUsuario = ?
-    List<Proyecto> findByIdUsuario(Usuario idUsuario);
+    List<Proyecto> findByIdUsuario(Integer idUsuario);
 }

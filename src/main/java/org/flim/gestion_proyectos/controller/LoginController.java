@@ -48,12 +48,16 @@ public class LoginController {
             Usuario usuarioIngresado = usuarioService.buscarUsuarioporNombreYClave(nombreUsuario, contrasenia);
             if(usuarioIngresado != null){
                 logger.info("Usuario: "+usuarioIngresado.toString());
-                //Supongo que por aquí iría el cambio de vista o un boolean para verificarlo
+
+                //Guarda el usuario que ingreso.
+                FacesContext.getCurrentInstance().getExternalContext()
+                        .getSessionMap().put("usuarioLogueado", usuarioIngresado);
+
                 try {
                     if ("admin".equalsIgnoreCase(usuarioIngresado.getRol())){
-                        FacesContext.getCurrentInstance().getExternalContext().redirect("admin.xhtml");
+                        FacesContext.getCurrentInstance().getExternalContext().redirect("proyectoView.xhtml");
                     } else {
-                        FacesContext.getCurrentInstance().getExternalContext().redirect("proyecto.xhtml");
+                        FacesContext.getCurrentInstance().getExternalContext().redirect("proyectoView.xhtml");
                     }
                 } catch (IOException e){
                     logger.info("" + e);

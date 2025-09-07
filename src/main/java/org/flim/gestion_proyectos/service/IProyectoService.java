@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface IProyectoService {
     public List<Proyecto> listarProyectos();
-    public List<Proyecto> buscarProyectoPorIdUser(Usuario idUser);
+    public List<Proyecto> buscarProyectoPorIdUser(Integer idUser);
     public Proyecto buscarProyectoPorId(Integer id);
     public void guardarContacto(Proyecto proyecto);
     public void eliminarContacto(Proyecto proyecto);

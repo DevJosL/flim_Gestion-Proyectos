@@ -21,7 +21,7 @@ public class ProyectoService implements IProyectoService{
     }
 
     @Override
-    public List<Proyecto> buscarProyectoPorIdUser(Usuario idUser) {
+    public List<Proyecto> buscarProyectoPorIdUser(Integer idUser) {
         List<Proyecto> proyectos = proyectoRepository.findByIdUsuario(idUser);
         return proyectos;
     }

@@ -40,14 +40,14 @@ public class RegisterController implements Serializable {
             usuarioService.guardarUsuario(nuevoUsuario);
 
             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Te registraste con exito."));
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Te registraste con exito.",""));
 
             // Si el usuario se creo correctamente se redirige al xhtml del login
             return "/login.xhtml?faces-redirect=true";
         } catch (Exception e) {
             // Si falla entonces muestra un mensaje de error
             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ocurrió un error al intentar registrarte."));
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ocurrió un error al intentar registrarte.",""));
             // Mostramos el error en la consola para facilitar lectura de errores
             e.printStackTrace();
 
