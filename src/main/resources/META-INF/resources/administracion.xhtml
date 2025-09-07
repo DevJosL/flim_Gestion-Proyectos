@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<h:html xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+        xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Administración</title>
+        <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css"/>
+        <link rel="stylesheet" href="https://unpkg.com/primeflex/themes/primeone-light.css"/>
+    </h:head>
+    <style>
+        .ui-button .pi {
+            font-size: 3rem !important;
+        }
+    </style>
+    <h:body style="background-color: #F2F2F2;">
+        <div class="card">
+            <p:menubar style="background-color: #A7CCED;">
+                <p:menuitem value="Inicio" icon="pi pi-home" onclick="window.location.href='/index.xhtml';"/>
+            </p:menubar>
+        </div>
+
+        <div class="flex align-items-center justify-content-center
+                    w-40rem h8rem  font-bold m-2
+                    text-gray-900 border-round"
+                    style="background-color: #82A0BC;">
+            <h3 style="font-family: 'Segoe UI', sans-serif; font-size: 2rem;">Administración</h3>
+        </div>
+
+
+        <div class="grid justify-content-center" style="margin-top:2rem">
+            <div class="col-12 md:col-4 lg:col-4 p-2">
+                <p:commandButton value="Ver Usuarios" icon="pi pi-users"
+                                 styleClass="w-full h-12rem text-2xl ui-button-info border-round-2xl shadow-3"
+                                 onclick="window.location.href='/usuarios.xhtml';"/>
+            </div>
+            <div class="col-12 md:col-4 lg:col-4 p-2">
+                <p:commandButton value="Ver Proyectos" icon="pi pi-briefcase"
+                                 styleClass="w-full h-12rem text-2xl ui-button-success border-round-2xl shadow-3"
+                                 onclick="window.location.href='/proyectos.xhtml';"/>
+            </div>
+        </div>
+        <div class="grid justify-content-center">
+            <div class="col-12 md:col-4 lg:col-4 p-2">
+                <p:commandButton value="Ver Fichas" icon="pi pi-file "
+                                 styleClass="w-full h-12rem text-2xl ui-button-warning border-round-2xl shadow-3"
+                                 onclick="window.location.href='/fichas.xhtml';"/>
+            </div>
+            <div class="col-12 md:col-4 lg:col-4 p-2">
+                <p:commandButton value="Ver Tareas" icon="pi pi-check-square"
+                                 styleClass="w-full h-12rem text-2xl ui-button-danger border-round-2xl shadow-3"
+                                 onclick="window.location.href='/tareas.xhtml';"/>
+            </div>
+        </div>
+
+    </h:body>
+</h:html>
