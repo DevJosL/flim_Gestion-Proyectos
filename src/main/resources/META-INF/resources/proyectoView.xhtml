@@ -78,6 +78,7 @@
                                              style="margin-top: 0.8rem;"
                                              action="#{proyectosController.abrirProyecto}"
                                              ajax="false">
+                                <f:setPropertyActionListener value="#{proyecto}" target="#{proyectosController.proyectoSeleccionado}" />
                             </p:commandButton>
                         </p:column>
                     </p:dataTable>
