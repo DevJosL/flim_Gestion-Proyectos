@@ -1,5 +1,6 @@
 package org.flim.gestion_proyectos.controller;
 
+/*
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
@@ -22,7 +23,9 @@ import java.util.List;
 @ViewScoped
 //Getter y Setter de Lombok
 @Data
-
+*/
+public class ProyectosController {
+/*
 public class ProyectosController implements Serializable {
 
     private static final Logger logger = LoggerFactory.getLogger(ProyectosController.class);
@@ -90,4 +93,5 @@ public class ProyectosController implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "No se pudo eliminar el proyecto."));
         }
     }
+     */
 }

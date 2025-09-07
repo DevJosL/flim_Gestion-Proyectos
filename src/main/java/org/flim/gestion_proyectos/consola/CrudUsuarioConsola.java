@@ -1,5 +1,6 @@
 package org.flim.gestion_proyectos.consola;
 
+/*
 import org.flim.gestion_proyectos.entity.Usuario;
 import org.flim.gestion_proyectos.service.IUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,10 @@ import java.util.List;
 import java.util.Scanner;
 
 @Component
+*/
+
+public class CrudUsuarioConsola{
+/*
 public class CrudUsuarioConsola implements CommandLineRunner {
 
     @Autowired
@@ -181,4 +186,6 @@ public class CrudUsuarioConsola implements CommandLineRunner {
             scanner.nextLine();
         }
     }
+
+     */
 }
