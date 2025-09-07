@@ -1,6 +1,7 @@
 package org.flim.gestion_proyectos.service;
 
 import org.flim.gestion_proyectos.entity.Proyecto;
+import org.flim.gestion_proyectos.entity.Usuario;
 import org.flim.gestion_proyectos.repository.ProyectoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ public class ProyectoService implements IProyectoService{
     }
 
     @Override
-    public List<Proyecto> buscarProyectoPorIdUser(Integer idUser) {
+    public List<Proyecto> buscarProyectoPorIdUser(Usuario idUser) {
         List<Proyecto> proyectos = proyectoRepository.findByIdUsuario(idUser);
         return proyectos;
     }

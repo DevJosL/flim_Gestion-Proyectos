@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Scanner;
 
-@Component
+//@Component
 public class CrudUsuarioConsola implements CommandLineRunner {
 
     @Autowired
@@ -64,7 +64,7 @@ public class CrudUsuarioConsola implements CommandLineRunner {
                         var nombreUsuario = cs.nextLine();
                         System.out.println("clave");
                         var clave = cs.nextLine();
-                        loginController.verificarDatos(nombreUsuario, clave);
+                        //loginController.verificarDatos(nombreUsuario, clave);
                     default:
                         System.out.println("Opción no válida. Intente de nuevo.");
                 }

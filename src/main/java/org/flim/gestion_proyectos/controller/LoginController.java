@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.util.List;
 
 @Component
@@ -25,6 +26,9 @@ public class LoginController {
     private List<Usuario> usuarios;
     private Usuario usuarioSeleccionado;
     private static Logger logger = LoggerFactory.getLogger(LoginController.class);
+
+    private String nombreUsuario;
+    private String contrasenia;
 
     @PostConstruct
     public void init(){
@@ -39,13 +43,34 @@ public class LoginController {
         this.usuarios = usuarios;
     }
 
-    public void verificarDatos(String nombreUsuario, String contrasenia ){
+    public void verificarDatos(){
         if(!nombreUsuario.isBlank() && !(contrasenia.isBlank())){
             Usuario usuarioIngresado = usuarioService.buscarUsuarioporNombreYClave(nombreUsuario, contrasenia);
             if(usuarioIngresado != null){
                 logger.info("Usuario: "+usuarioIngresado.toString());
                 //Supongo que por aquí iría el cambio de vista o un boolean para verificarlo
+                try {
+                    if ("admin".equalsIgnoreCase(usuarioIngresado.getRol())){
+                        FacesContext.getCurrentInstance().getExternalContext().redirect("admin.xhtml");
+                    } else {
+                        FacesContext.getCurrentInstance().getExternalContext().redirect("proyecto.xhtml");
+                    }
+                } catch (IOException e){
+                    logger.info("" + e);
+                    e.printStackTrace();
+                }
+
+            }else{
+                FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                                "Credenciales inválidas",
+                                "Usuario o contraseña incorrectos"));
             }
+        }else {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN,
+                            "Campos vacíos",
+                            "Ingrese usuario y contraseña"));
         }
 
     }
