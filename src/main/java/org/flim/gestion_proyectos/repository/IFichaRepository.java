@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface IFichaRepository extends JpaRepository<Ficha,Integer> {
 
-    List<Ficha> findByNombreFicha(String nombreFicha);
+    List<Ficha> findByProyecto_idProyecto(Integer proyectoId);
 }
 

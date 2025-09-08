@@ -9,6 +9,13 @@ import java.util.List;
 
 @Service
 public class FichaService implements IFichaService{
+
+    @Override
+    public List<Ficha> buscarFichaPorIdProyecto(Integer idProyecto) {
+        List<Ficha> proyectos = fichaRepository.findByProyecto_idProyecto(idProyecto);
+        return proyectos;
+    }
+
     @Autowired
     private IFichaRepository fichaRepository;
 
@@ -22,15 +29,6 @@ public class FichaService implements IFichaService{
     public Ficha buscarFichaPorId(Integer codigo) {
         Ficha ficha = fichaRepository.findById(codigo).orElse(null);
         return ficha;
-    }
-
-    @Override
-    public Ficha buscarFichaPorNombre(String nombreFicha) {
-        List<Ficha> fichas = fichaRepository.findByNombreFicha(nombreFicha);
-        if(fichas != null){
-            return fichas.getFirst();
-        }
-        return null;
     }
 
     @Override

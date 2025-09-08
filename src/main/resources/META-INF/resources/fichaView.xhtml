@@ -1,0 +1,121 @@
+<h:html xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+        xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Fichas del Proyecto</title>
+        <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css"/>
+        <link rel="stylesheet" href="https://unpkg.com/primeflex/themes/primeone-light.css"/>
+    </h:head>
+    <h:body style="background-color: #F2F2F2;">
+        <div class="card">
+            <h:form id="formulario-fichas">
+                <p:growl id="mensaje-emergente" showDetails="true"/>
+                <div class="card">
+                    <p:menubar style="background-color: #A7CCED;">
+                        <p:menuitem value="Nueva Ficha" icon="pi pi-fw pi-plus"
+                                    actionListener="#{fichaController.agregarFicha()}"
+                                    update=":formulario-modal:ventana-ficha"
+                                    oncomplete="PF('ventanaModalFicha').show()"/>
+                        <p:menuitem value="Regresar a Proyectos" icon="pi pi-fw pi-arrow-left"
+                                    actionListener="#{fichaController.regresarAProyectos()}"
+                                    ajax="false"/>
+                    </p:menubar>
+                </div>
+                <div class="card">
+                    <p:dataTable value="#{fichaController.fichas}" var="ficha"
+                                 id="tabla-fichas" widgetVar="fichaTabla">
+                        <f:facet name="header">
+                            <div class="flex justify-content-center flex-wrap card-container yellow-container">
+                                <div class="flex align-items-center justify-content-center font-bold m-2
+                                    text-gray-900 border-round p-3"
+                                     style="background-color: #82A0BC;">
+                                    <h3 style="font-size: 1.25rem;">Fichas del Proyecto: #{fichaController.proyectoIngresado.nombre}</h3>
+                                </div>
+                            </div>
+                        </f:facet>
+
+                        <p:column headerText="ID">
+                            <h:outputText value="#{ficha.idFicha}"/>
+                        </p:column>
+                        <p:column headerText="TÍTULO">
+                            <h:outputText value="#{ficha.nombreFicha}"/>
+                        </p:column>
+                        <p:column headerText="PROYECTO">
+                            <h:outputText value="#{ficha.proyecto.nombre}"/>
+                        </p:column>
+                        <p:column>
+                            <p:commandButton value="Editar" icon="pi pi-pencil"
+                                             update=":formulario-modal:ventana-ficha"
+                                             process="@this"
+                                             oncomplete="PF('ventanaModalFicha').show()"
+                                             class="ui-button-primary"
+                                             style="margin-right:.5rem">
+                                <f:setPropertyActionListener
+                                        value="#{ficha}"
+                                        target="#{fichaController.fichaSeleccionada}"/>
+                            </p:commandButton>
+                            <p:commandButton value="Eliminar" icon="pi pi-trash"
+                                             class="ui-button-danger"
+                                             style="margin-right:.5rem"
+                                             process="@this"
+                                             oncomplete="PF('ventanaEliminarFicha').show()">
+                                <f:setPropertyActionListener
+                                        value="#{ficha}"
+                                        target="#{fichaController.fichaSeleccionada}"/>
+                            </p:commandButton>
+                            <p:commandButton value="Ver Tareas" icon="pi pi-angle-double-right"
+                                             class="ui-button-success"
+                                             style="margin-top: 0.8rem;"
+                                             action="#{fichaController.abrirFicha}"
+                                             ajax="false">
+                                <f:setPropertyActionListener value="#{ficha}" target="#{fichaController.fichaSeleccionada}" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </div>
+            </h:form>
+
+            <h:form id="formulario-modal">
+                <p:dialog header="Detalle Ficha" showEffect="fade" modal="true" widgetVar="ventanaModalFicha" responsive="true">
+                    <p:outputPanel id="ventana-ficha" class="ui-fluid">
+                        <div class="field">
+                            <p:outputLabel for="titulo">Título</p:outputLabel>
+                            <p:inputText id="titulo"
+                                         value="#{fichaController.fichaSeleccionada.nombreFicha}"
+                                         required="true"/>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="proyecto">Proyecto</p:outputLabel>
+                            <p:inputText id="proyecto"
+                                         value="#{fichaController.fichaSeleccionada.proyecto.nombre}"
+                                         required="true"
+                                         disabled="true"/>
+                        </div>
+                    </p:outputPanel>
+                    <f:facet name="footer">
+                        <p:commandButton value="Guardar" icon="pi pi-check"
+                                         process="ventana-ficha @this"
+                                         actionListener="#{fichaController.guardarFicha}"
+                                         oncomplete="PF('ventanaModalFicha').hide()"/>
+                        <p:commandButton value="Cancelar" icon="pi pi-times"
+                                         onclick="PF('ventanaModalFicha').hide()"
+                                         class="ui-button-secondary" type="button"/>
+                    </f:facet>
+                </p:dialog>
+                <p:confirmDialog
+                        widgetVar="ventanaEliminarFicha"
+                        showEffect="fade" width="300"
+                        message="¿Desea eliminar esta Ficha?"
+                        header="CONFIRMACIÓN" severity="warn">
+                    <p:commandButton value="Si" icon="pi pi-check"
+                                     actionListener="#{fichaController.eliminarFicha}"
+                                     process="@this"
+                                     oncomplete="PF('ventanaEliminarFicha').hide()"/>
+                    <p:commandButton value="No" icon="pi pi-times"
+                                     onclick="PF('ventanaEliminarFicha').hide()"
+                                     type="button"/>
+                </p:confirmDialog>
+            </h:form>
+        </div>
+    </h:body>
+</h:html>

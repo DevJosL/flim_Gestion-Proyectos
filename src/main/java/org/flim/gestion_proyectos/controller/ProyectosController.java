@@ -154,10 +154,10 @@ public class ProyectosController implements Serializable {
             FacesContext.getCurrentInstance().getExternalContext()
                     .getSessionMap().put("proyectoIngresado", this.proyectoSeleccionado);
 
-            logger.info(System.lineSeparator() + "Ingresando al proyecto: " + this.proyectoSeleccionado
+            logger.info(System.lineSeparator() + "Ingresando al proyecto: " + this.proyectoSeleccionado.getIdProyecto()
                     + System.lineSeparator());
 
-            FacesContext.getCurrentInstance().getExternalContext().redirect("fichasView.xhtml");
+            FacesContext.getCurrentInstance().getExternalContext().redirect("fichaView.xhtml");
         } catch (Exception e) {
             logger.info("No se pudo ingresar: " + e.getMessage());
             e.printStackTrace();

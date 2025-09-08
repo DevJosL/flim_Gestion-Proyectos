@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<h:html xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+        xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>Tareas de la Ficha</title>
+        <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css"/>
+        <link rel="stylesheet" href="https://unpkg.com/primeflex/themes/primeone-light.css"/>
+    </h:head>
+    <h:body style="background-color: #F2F2F2;">
+        <div class="card">
+            <h:form id="formulario-tareas">
+                <p:growl id="mensaje-emergente" showDetails="true"/>
+                <div class="card">
+                    <p:menubar style="background-color: #A7CCED;">
+                        <p:menuitem value="Nueva Tarea" icon="pi pi-fw pi-plus"
+                                    actionListener="#{tareaController.agregarTarea()}"
+                                    update=":formulario-modal:ventana-tarea"
+                                    oncomplete="PF('ventanaModalTarea').show()"/>
+                        <p:menuitem value="Regresar a Fichas" icon="pi pi-fw pi-arrow-left"
+                                    actionListener="#{tareaController.regresarAFichas()}"
+                                    ajax="false"/>
+                    </p:menubar>
+                </div>
+                <div class="card">
+                    <p:dataTable value="#{tareaController.tareas}" var="tarea"
+                                 id="tabla-tareas" widgetVar="tareaTabla">
+                        <f:facet name="header">
+                            <div class="flex justify-content-center flex-wrap card-container yellow-container">
+                                <div class="flex align-items-center justify-content-center font-bold m-2
+                                    text-gray-900 border-round p-3"
+                                     style="background-color: #82A0BC;">
+                                    <h3 style="font-size: 1.25rem;">Tareas de la Ficha: #{tareaController.fichaIngresada.nombreFicha}</h3>
+                                </div>
+                            </div>
+                        </f:facet>
+
+                        <p:column headerText="ID">
+                            <h:outputText value="#{tarea.idTarea}"/>
+                        </p:column>
+                        <p:column headerText="NOMBRE">
+                            <h:outputText value="#{tarea.nombreTarea}"/>
+                        </p:column>
+                        <p:column headerText="DESCRIPCIÓN">
+                            <h:outputText value="#{tarea.descripcionTarea}"/>
+                        </p:column>
+                        <p:column headerText="FECHA INICIO">
+                            <h:outputText value="#{tarea.fechaInicio}">
+                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="GMT-6"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="FECHA FIN">
+                            <h:outputText value="#{tarea.fechaFin}">
+                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="GMT-6"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <p:commandButton value="Editar" icon="pi pi-pencil"
+                                             update=":formulario-modal:ventana-tarea"
+                                             process="@this"
+                                             oncomplete="PF('ventanaModalTarea').show()"
+                                             class="ui-button-primary"
+                                             style="margin-right:.5rem">
+                                <f:setPropertyActionListener
+                                        value="#{tarea}"
+                                        target="#{tareaController.tareaSeleccionada}"/>
+                            </p:commandButton>
+                            <p:commandButton value="Eliminar" icon="pi pi-trash"
+                                             class="ui-button-danger"
+                                             style="margin-right:.5rem"
+                                             process="@this"
+                                             oncomplete="PF('ventanaEliminarTarea').show()">
+                                <f:setPropertyActionListener
+                                        value="#{tarea}"
+                                        target="#{tareaController.tareaSeleccionada}"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </div>
+            </h:form>
+
+            <h:form id="formulario-modal">
+                <p:dialog header="Detalle Tarea" showEffect="fade" modal="true" widgetVar="ventanaModalTarea" responsive="true">
+                    <p:outputPanel id="ventana-tarea" class="ui-fluid">
+                        <div class="field">
+                            <p:outputLabel for="nombre">Nombre</p:outputLabel>
+                            <p:inputText id="nombre"
+                                         value="#{tareaController.tareaSeleccionada.nombreTarea}"
+                                         required="true"/>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="descripcion">Descripción</p:outputLabel>
+                            <p:inputTextarea id="descripcion"
+                                             value="#{tareaController.tareaSeleccionada.descripcionTarea}"
+                                             rows="3" required="true"/>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="fechaInicio">Fecha de Inicio</p:outputLabel>
+                            <p:calendar id="fechaInicio"
+                                        value="#{tareaController.tareaSeleccionada.fechaInicio}"
+                                        showOnFocus="false"
+                                        pattern="dd/MM/yyyy HH:mm"
+                                        mask="true"
+                                        required="true"/>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="fechaFin">Fecha de Inicio</p:outputLabel>
+                            <p:calendar id="fechaFin"
+                                        value="#{tareaController.tareaSeleccionada.fechaFin}"
+                                        showOnFocus="false"
+                                        pattern="dd/MM/yyyy HH:mm"
+                                        mask="true"
+                                        required="true"/>
+                        </div>
+                    </p:outputPanel>
+                    <f:facet name="footer">
+                        <p:commandButton value="Guardar" icon="pi pi-check"
+                                         process="ventana-tarea @this"
+                                         actionListener="#{tareaController.guardarTarea}"
+                                         oncomplete="PF('ventanaModalTarea').hide()"/>
+                        <p:commandButton value="Cancelar" icon="pi pi-times"
+                                         onclick="PF('ventanaModalTarea').hide()"
+                                         class="ui-button-secondary" type="button"/>
+                    </f:facet>
+                </p:dialog>
+                <p:confirmDialog
+                        widgetVar="ventanaEliminarTarea"
+                        showEffect="fade" width="300"
+                        message="¿Desea eliminar esta Tarea?"
+                        header="CONFIRMACIÓN" severity="warn">
+                    <p:commandButton value="Si" icon="pi pi-check"
+                                     actionListener="#{tareaController.eliminarTarea}"
+                                     process="@this"
+                                     oncomplete="PF('ventanaEliminarTarea').hide()"/>
+                    <p:commandButton value="No" icon="pi pi-times"
+                                     onclick="PF('ventanaEliminarTarea').hide()"
+                                     type="button"/>
+                </p:confirmDialog>
+            </h:form>
+        </div>
+    </h:body>
+</h:html>
