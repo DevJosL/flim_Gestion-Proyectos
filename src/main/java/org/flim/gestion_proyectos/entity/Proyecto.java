@@ -18,7 +18,7 @@ public class Proyecto {
 
     //@ManyToOne
     //@JoinColumn(name = "idUsuario", referencedColumnName = "idUsuario")
-    private Integer idUsuario;
+    //private Integer idUsuario;
 
     private String nombre;
     private String descripcion;

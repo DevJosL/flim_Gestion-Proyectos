@@ -3,11 +3,16 @@ package org.flim.gestion_proyectos.controller;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
+import jakarta.faces.model.SelectItem;
 import jakarta.faces.view.ViewScoped;
 import lombok.Data;
 import org.flim.gestion_proyectos.entity.Proyecto;
 import org.flim.gestion_proyectos.entity.Usuario;
+import org.flim.gestion_proyectos.entity.UsuarioProyecto;
 import org.flim.gestion_proyectos.service.IProyectoService;
+import org.flim.gestion_proyectos.service.IUsuarioProyectoService;
+import org.flim.gestion_proyectos.service.IUsuarioService;
+import org.flim.gestion_proyectos.service.UsuarioService;
 import org.primefaces.PrimeFaces;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 //Componente generico
@@ -33,10 +39,31 @@ public class ProyectosController implements Serializable {
 
     private List<Proyecto> proyectos;
     private Proyecto proyectoSeleccionado;
+    private List<UsuarioProyecto> usuarioProyectos;
+    private UsuarioProyecto usuarioProyecto;
+
+    @Autowired
+    private IUsuarioProyectoService usuarioProyectoService;
+
+    @Autowired
+    private UsuarioService usuarioService;
+
+    private Usuario usuario;
+
+    private List<Usuario> usuarios;
+    private List<String> usuarioDisponible;
+
+    private Integer usuarioSeleccionadoId;
 
     @PostConstruct
     public void init() {
         cargarProyectos();
+        usuarios = usuarioService.listarUsuario();
+        usuarioDisponible = new ArrayList<>();
+        for (Usuario usu : usuarios){
+            usuarioDisponible.add(usu.getIdUsuario() + " " +usu.getNombreUsuario());
+        }
+        usuarioProyectos = new ArrayList<>();
     }
 
     public void cargarProyectos() {
@@ -48,9 +75,12 @@ public class ProyectosController implements Serializable {
 
     public void agregarProyecto() {
         this.proyectoSeleccionado = new Proyecto();
-        Usuario usuarioLogueado = (Usuario) FacesContext.getCurrentInstance()
-                .getExternalContext().getSessionMap().get("usuarioLogueado");
-        this.proyectoSeleccionado.setIdUsuario(usuarioLogueado.getIdUsuario());
+//        Usuario usuarioLogueado = (Usuario) FacesContext.getCurrentInstance()
+//                .getExternalContext().getSessionMap().get("usuarioLogueado");
+        this.usuarioProyecto = new UsuarioProyecto();
+//        this.usuarioProyecto.setIdProyecto(this.proyectoSeleccionado.getIdProyecto());
+//        this.usuarioProyecto.setIdUsuario(usuarioLogueado.getIdUsuario());
+        //this.proyectoSeleccionado.setIdUsuario(usuarioLogueado.getIdUsuario());
     }
 
     public void guardarProyecto() {
@@ -59,6 +89,16 @@ public class ProyectosController implements Serializable {
             if (this.proyectoSeleccionado.getIdProyecto() == null) {
                 proyectoService.guardarContacto(this.proyectoSeleccionado);
                 proyectos.add(this.proyectoSeleccionado);
+
+                Usuario usuarioLogueado = (Usuario) FacesContext.getCurrentInstance()
+                        .getExternalContext().getSessionMap().get("usuarioLogueado");
+
+                usuarioProyecto = new UsuarioProyecto();
+                usuarioProyecto.setIdUsuario(usuarioLogueado.getIdUsuario());
+                usuarioProyecto.setIdProyecto(this.proyectoSeleccionado.getIdProyecto());
+
+                usuarioProyectoService.guardarUsuarioProyecto(usuarioProyecto);
+
                 FacesContext.getCurrentInstance().addMessage(null,
                         new FacesMessage(FacesMessage.SEVERITY_INFO, "Proyecto creado.", ""));
             } else {
@@ -122,6 +162,30 @@ public class ProyectosController implements Serializable {
             logger.info("No se pudo ingresar: " + e.getMessage());
             e.printStackTrace();
         }
+    }
 
+    public void anadirUsuario(){
+        try {
+        proyectoService.guardarContacto(this.proyectoSeleccionado);
+        UsuarioProyecto usuPry = new UsuarioProyecto();
+        usuPry.setIdUsuario(this.usuarioSeleccionadoId);
+        usuPry.setIdProyecto(this.proyectoSeleccionado.getIdProyecto());
+
+        usuarioProyectoService.guardarUsuarioProyecto(usuPry);
+        usuarioProyectos.add(usuPry);
+
+        FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_INFO,
+                        "Usuario añadido al proyecto correctamente.", ""));
+
+        PrimeFaces.current().executeInitScript("PF('ventanaModalAnadir').hide()");
+        PrimeFaces.current().ajax().update("formulario-proyectos:tabla-proyectos",
+                "formulario-proyectos:mensaje-emergente");
+
+        this.usuarioSeleccionadoId = null;
+        } catch (Exception e){
+            logger.info("Error al añadir usuario " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 }

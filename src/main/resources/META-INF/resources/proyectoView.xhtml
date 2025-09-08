@@ -79,6 +79,13 @@
                                              action="#{proyectosController.abrirProyecto}"
                                              ajax="false">
                             </p:commandButton>
+                            <p:commandButton  icon="pi pi-user-plus" styleClass="rounded-button ui-button-info"
+                                        process="@this"
+                                        oncomplete="PF('ventanaModalAnadir').show()">
+                                <f:setPropertyActionListener
+                                        value="#{proyecto}"
+                                        target="#{proyectosController.proyectoSeleccionado}"/>
+                            </p:commandButton>
                         </p:column>
                     </p:dataTable>
                 </div>
@@ -103,7 +110,7 @@
                                 <p:outputLabel for="@next" value="Visibilidad"/>
                                 <p:selectOneMenu id="option" value="#{proyectosController.proyectoSeleccionado.visibilidad}"
                                                     required="true" style="width: 15rem;">
-                                    <f:selectItem itemLabel="Selecciona una" itemValue="#{null}"/>
+                                    <f:selectItem itemLabel="Selecciona una" itemValue="#{null}" noSelectionOption="true"/>
                                     <f:selectItem itemLabel="Publico" itemValue="Publico"/>
                                     <f:selectItem itemLabel="Privado" itemValue="Privado"/>
                                     <f:selectItem itemLabel="Laboral" itemValue="Laboral"/>
@@ -138,6 +145,38 @@
                                      onclick="PF('ventanaEliminarProyecto').hide()"
                                      type="button"/>
                 </p:confirmDialog>
+            </h:form>
+            <h:form id="anadir-modal">
+                <p:dialog header="Añadir Usuario" showEffect="fade" modal="true" widgetVar="ventanaModalAnadir" responsive="true">
+                    <p:outputPanel id="ventana-anadir" class="ui-fluid">
+                        <div class="field">
+                            <div class="field col-12 md:col-4">
+                                <p:outputLabel for="@next" value="Usuarios"/>
+                                <p:selectOneMenu id="option" value="#{proyectosController.usuarioSeleccionadoId}"
+                                                 required="true" style="width: 15rem;">
+                                    <f:selectItem itemLabel="Selecciona una" itemValue="#{null}" noSelectionOption="true"/>
+                                    <f:selectItems value="#{proyectosController.usuarios}"
+                                                  var="usu"
+                                                  itemLabel="#{usu.nombreUsuario}" itemValue="#{usu.idUsuario}"/>
+                                    <f:facet name="footer">
+                                        <p:divider styleClass="mt-0" />
+                                        <h:outputText value="3 opciones" style="font-weight:bold;"/>
+                                    </f:facet>
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
+                    </p:outputPanel>
+                    <f:facet name="footer">
+                        <p:commandButton value="Añadir" icon="pi pi-plus"
+                                         process="ventana-anadir @this"
+                                         actionListener="#{proyectosController.anadirUsuario}"
+                                         update=":formulario-proyectos:tabla-proyectos :formulario-proyectos:mensaje-emergente"
+                                         oncomplete="PF('ventanaModalAnadir').hide()"/>
+                        <p:commandButton value="Cancelar" icon="pi pi-times"
+                                         onclick="PF('ventanaModalAnadir').hide()"
+                                         class="ui-button-secondary" type="button"/>
+                    </f:facet>
+                </p:dialog>
             </h:form>
         </div>
     </h:body>
