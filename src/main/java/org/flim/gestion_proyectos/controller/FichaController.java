@@ -33,7 +33,8 @@ public class FichaController implements Serializable {
 
     @PostConstruct
     public void init() {
-        this.proyectoIngresado = (Proyecto) FacesContext.getCurrentInstance()
+        cargarFichas();
+        /*this.proyectoIngresado = (Proyecto) FacesContext.getCurrentInstance()
                 .getExternalContext().getSessionMap().get("proyectoIngresado");
         if (this.proyectoIngresado != null) {
             cargarFichas();
@@ -44,17 +45,19 @@ public class FichaController implements Serializable {
             } catch (Exception e) {
                 logger.error("Error al redireccionar: " + e.getMessage(), e);
             }
-        }
+        }*/
     }
 
     public void cargarFichas() {
-        this.fichas = fichaService.buscarFichaPorIdProyecto(this.proyectoIngresado.getIdProyecto());
+        this.proyectoIngresado = (Proyecto) FacesContext.getCurrentInstance()
+                .getExternalContext().getSessionMap().get("proyectoIngresado");
+        this.fichas = fichaService.buscarFichaPorIdProyecto(proyectoIngresado.getIdProyecto());
         logger.info("Fichas cargadas para el proyecto " + this.proyectoIngresado.getNombre() + ": " + fichas);
     }
 
     public void agregarFicha() {
         this.fichaSeleccionada = new Ficha();
-        this.fichaSeleccionada.setProyecto(this.proyectoIngresado);
+        this.fichaSeleccionada.setIdProyecto(proyectoIngresado.getIdProyecto());
     }
 
     public void guardarFicha() {

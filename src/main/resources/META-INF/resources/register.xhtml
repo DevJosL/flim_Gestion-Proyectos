@@ -7,16 +7,16 @@
         <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css"/>
         <style>
             .card {
-                background-color: #304D6D;
+                background-color: #ffff;
                 border-radius: 10px;
                 padding: 2rem;
             }
             body {
-                background-color: #545E75;
+                background-color: #A7CCED;
                 font-family: Arial, sans-serif;
             }
             .title {
-                color: #A7CCED;
+                color: black;
             }
             .p-button {
                 background-color: #63ADF2 !important;
@@ -48,18 +48,22 @@
                     </div>
                     <div class="field">
                         <p:outputLabel for="nombreUsuario" value="Nombre de Usuario"/>
-                        <p:inputText id="nombreUsuario" value="#{registerController.nuevoUsuario.nombreUsuario}" required="true"/>
+                        <p:inputText id="nombreUsuario" value="#{registerController.nuevoUsuario.nombreUsuario}" required="true" class="w-full"/>
                     </div>
                     <div class="field">
                         <p:outputLabel for="correo" value="Correo"/>
-                        <p:inputText id="correo" value="#{registerController.nuevoUsuario.correo}" required="true"/>
+                        <div>
+                        <p:inputText id="correo" value="#{registerController.nuevoUsuario.correo}" required="true" class="w-full"/>
+                        </div>
                     </div>
                     <div class="field">
-                        <p:outputLabel for="contraseña" value="Contraseña"/>
-                        <p:password id="contraseña" value="#{registerController.nuevoUsuario.contraseña}" required="true" feedback="false"/>
+                        <p:outputLabel for="contrasena" value="contrasena"/>
+                        <div>
+                        <p:password id="contrasena" value="#{registerController.nuevoUsuario.contrasena}" required="true" feedback="false" class="w-full"/>
+                        </div>
                     </div>
                     <div class="flex justify-content-center">
-                        <p:commandButton value="Registrar" action="#{registerController.registrar}" update="formulario-registro" styleClass="p-button p-button-raised"/>
+                        <p:commandButton value="Registrar" action="#{registerController.registrar}" update="formulario-registro" styleClass="p-button p-button-raised" class="w-full"/>
                     </div>
                 </h:form>
             </div>

@@ -12,7 +12,7 @@ public class FichaService implements IFichaService{
 
     @Override
     public List<Ficha> buscarFichaPorIdProyecto(Integer idProyecto) {
-        List<Ficha> proyectos = fichaRepository.findByProyecto_idProyecto(idProyecto);
+        List<Ficha> proyectos = fichaRepository.findByIdProyecto(idProyecto);
         return proyectos;
     }
 

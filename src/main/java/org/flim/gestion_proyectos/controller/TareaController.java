@@ -7,6 +7,7 @@ import jakarta.faces.view.ViewScoped;
 import lombok.Data;
 import org.flim.gestion_proyectos.entity.Ficha;
 import org.flim.gestion_proyectos.entity.Tarea;
+import org.flim.gestion_proyectos.service.IFichaService;
 import org.flim.gestion_proyectos.service.ITareaService;
 import org.primefaces.PrimeFaces;
 import org.slf4j.Logger;
@@ -31,6 +32,11 @@ public class TareaController implements Serializable {
     private Tarea tareaSeleccionada;
     private Ficha fichaIngresada;
 
+    @Autowired
+    private IFichaService fichaService;
+
+    private List<Ficha> fichasProyecto;
+
     @PostConstruct
     public void init() {
         this.fichaIngresada = (Ficha) FacesContext.getCurrentInstance()
@@ -53,7 +59,9 @@ public class TareaController implements Serializable {
 
     public void agregarTarea() {
         this.tareaSeleccionada = new Tarea();
+        if (this.fichaIngresada != null) {
         this.tareaSeleccionada.setFicha(this.fichaIngresada);
+        }
     }
 
     public void guardarTarea() {

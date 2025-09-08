@@ -55,7 +55,7 @@ public class LoginController {
 
                 try {
                     if ("admin".equalsIgnoreCase(usuarioIngresado.getRol())){
-                        FacesContext.getCurrentInstance().getExternalContext().redirect("proyectoView.xhtml");
+                        FacesContext.getCurrentInstance().getExternalContext().redirect("administracion.xhtml");
                     } else {
                         FacesContext.getCurrentInstance().getExternalContext().redirect("proyectoView.xhtml");
                     }

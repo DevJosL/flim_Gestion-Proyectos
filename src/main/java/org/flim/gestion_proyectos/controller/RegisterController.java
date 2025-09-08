@@ -44,7 +44,7 @@ public class RegisterController implements Serializable {
 
             // Si el usuario se creo correctamente se redirige al xhtml del login
             //return "/login.xhtml?faces-redirect=true";
-            return "/register.xhtml?faces-redirect=true";
+            return "/index.xhtml?faces-redirect=true";
         } catch (Exception e) {
             // Si falla entonces muestra un mensaje de error
             FacesContext.getCurrentInstance().addMessage(null,

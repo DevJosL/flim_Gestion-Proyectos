@@ -16,7 +16,7 @@ public class Ficha {
     private Integer idFicha;
     private String nombreFicha;
     
-    @ManyToOne
-    @JoinColumn(name = "idProyecto", referencedColumnName = "idProyecto")
-    private Proyecto proyecto;
+    //@ManyToOne
+    //@JoinColumn(name = "idProyecto", referencedColumnName = "idProyecto")
+    private Integer idProyecto;
 }

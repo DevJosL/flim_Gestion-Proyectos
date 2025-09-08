@@ -41,7 +41,7 @@
                             <h:outputText value="#{ficha.nombreFicha}"/>
                         </p:column>
                         <p:column headerText="PROYECTO">
-                            <h:outputText value="#{ficha.proyecto.nombre}"/>
+                            <h:outputText value="#{ficha.idProyecto}"/>
                         </p:column>
                         <p:column>
                             <p:commandButton value="Editar" icon="pi pi-pencil"
@@ -83,13 +83,6 @@
                             <p:inputText id="titulo"
                                          value="#{fichaController.fichaSeleccionada.nombreFicha}"
                                          required="true"/>
-                        </div>
-                        <div class="field">
-                            <p:outputLabel for="proyecto">Proyecto</p:outputLabel>
-                            <p:inputText id="proyecto"
-                                         value="#{fichaController.fichaSeleccionada.proyecto.nombre}"
-                                         required="true"
-                                         disabled="true"/>
                         </div>
                     </p:outputPanel>
                     <f:facet name="footer">

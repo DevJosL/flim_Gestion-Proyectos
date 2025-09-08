@@ -57,9 +57,9 @@
                         </p:column>
                         <p:column>
                             <p:commandButton value="Editar" icon="pi pi-pencil"
-                                             update=":formulario-modal:ventana-tarea"
+                                             update=":formularioEditar-modal:ventana-tareaEditar"
                                              process="@this"
-                                             oncomplete="PF('ventanaModalTarea').show()"
+                                             oncomplete="PF('ventanaModalTareaEditar').show()"
                                              class="ui-button-primary"
                                              style="margin-right:.5rem">
                                 <f:setPropertyActionListener
@@ -105,7 +105,7 @@
                                         required="true"/>
                         </div>
                         <div class="field">
-                            <p:outputLabel for="fechaFin">Fecha de Inicio</p:outputLabel>
+                            <p:outputLabel for="fechaFin">Fecha de Fin</p:outputLabel>
                             <p:calendar id="fechaFin"
                                         value="#{tareaController.tareaSeleccionada.fechaFin}"
                                         showOnFocus="false"
@@ -121,6 +121,70 @@
                                          oncomplete="PF('ventanaModalTarea').hide()"/>
                         <p:commandButton value="Cancelar" icon="pi pi-times"
                                          onclick="PF('ventanaModalTarea').hide()"
+                                         class="ui-button-secondary" type="button"/>
+                    </f:facet>
+                </p:dialog>
+                <p:confirmDialog
+                        widgetVar="ventanaEliminarTarea"
+                        showEffect="fade" width="300"
+                        message="¿Desea eliminar esta Tarea?"
+                        header="CONFIRMACIÓN" severity="warn">
+                    <p:commandButton value="Si" icon="pi pi-check"
+                                     actionListener="#{tareaController.eliminarTarea}"
+                                     process="@this"
+                                     oncomplete="PF('ventanaEliminarTarea').hide()"/>
+                    <p:commandButton value="No" icon="pi pi-times"
+                                     onclick="PF('ventanaEliminarTarea').hide()"
+                                     type="button"/>
+                </p:confirmDialog>
+            </h:form>
+            <h:form id="formularioEditar-modal">
+                <p:dialog header="Detalle Tarea" showEffect="fade" modal="true" widgetVar="ventanaModalTareaEditar" responsive="true">
+                    <p:outputPanel id="ventana-tareaEditar" class="ui-fluid">
+                        <div class="field">
+                            <p:outputLabel for="nombre">Nombre</p:outputLabel>
+                            <p:inputText id="nombre"
+                                         value="#{tareaController.tareaSeleccionada.nombreTarea}"
+                                         required="true"/>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="descripcion">Descripción</p:outputLabel>
+                            <p:inputTextarea id="descripcion"
+                                             value="#{tareaController.tareaSeleccionada.descripcionTarea}"
+                                             rows="3" required="true"/>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="fechaInicio">Fecha de Inicio</p:outputLabel>
+                            <p:calendar id="fechaInicio"
+                                        value="#{tareaController.tareaSeleccionada.fechaInicio}"
+                                        showOnFocus="false"
+                                        pattern="dd/MM/yyyy HH:mm"
+                                        mask="true"
+                                        required="true"/>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="fechaFin">Fecha de Fin</p:outputLabel>
+                            <p:calendar id="fechaFin"
+                                        value="#{tareaController.tareaSeleccionada.fechaFin}"
+                                        showOnFocus="false"
+                                        pattern="dd/MM/yyyy HH:mm"
+                                        mask="true"
+                                        required="true"/>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="idFicha">idFicha</p:outputLabel>
+                            <p:inputText id="idFicha"
+                                         value="#{tareaController.tareaSeleccionada.ficha.idFicha}"
+                                         required="true"/>
+                        </div>
+                    </p:outputPanel>
+                    <f:facet name="footer">
+                        <p:commandButton value="Guardar" icon="pi pi-check"
+                                         process="ventana-tareaEditar @this"
+                                         actionListener="#{tareaController.guardarTarea}"
+                                         oncomplete="PF('ventanaModalTareaEditar').hide()"/>
+                        <p:commandButton value="Cancelar" icon="pi pi-times"
+                                         onclick="PF('ventanaModalTareaEditar').hide()"
                                          class="ui-button-secondary" type="button"/>
                     </f:facet>
                 </p:dialog>
