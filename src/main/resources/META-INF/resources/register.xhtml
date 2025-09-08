@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Registro de Usuario</title>
+        <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css"/>
+        <style>
+            .card {
+                background-color: #304D6D;
+                border-radius: 10px;
+                padding: 2rem;
+            }
+            body {
+                background-color: #545E75;
+                font-family: Arial, sans-serif;
+            }
+            .title {
+                color: #A7CCED;
+            }
+            .p-button {
+                background-color: #63ADF2 !important;
+                border-color: #63ADF2 !important;
+                color: #304D6D !important;
+            }
+            .p-button-secondary {
+                background-color: #82A0BC !important;
+                border-color: #82A0BC !important;
+                color: #304D6D !important;
+            }
+            .field {
+                margin-bottom: 1.5rem;
+            }
+            .ui-inputtext {
+                background-color: #A7CCED;
+                border: 1px solid #82A0BC;
+                color: #304D6D;
+            }
+        </style>
+    </h:head>
+    <h:body>
+        <div class="flex justify-content-center align-items-center min-h-screen">
+            <div class="card" style="width: 25rem;">
+                <h:form id="formulario-registro">
+                    <p:growl id="mensaje-emergente" showDetail="true"/>
+                    <div class="text-center">
+                        <h2 class="title">Registro de Usuario</h2>
+                    </div>
+                    <div class="field">
+                        <p:outputLabel for="nombreUsuario" value="Nombre de Usuario"/>
+                        <p:inputText id="nombreUsuario" value="#{registerController.nuevoUsuario.nombreUsuario}" required="true"/>
+                    </div>
+                    <div class="field">
+                        <p:outputLabel for="correo" value="Correo"/>
+                        <p:inputText id="correo" value="#{registerController.nuevoUsuario.correo}" required="true"/>
+                    </div>
+                    <div class="field">
+                        <p:outputLabel for="contraseña" value="Contraseña"/>
+                        <p:password id="contraseña" value="#{registerController.nuevoUsuario.contraseña}" required="true" feedback="false"/>
+                    </div>
+                    <div class="flex justify-content-center">
+                        <p:commandButton value="Registrar" action="#{registerController.registrar}" update="formulario-registro" styleClass="p-button p-button-raised"/>
+                    </div>
+                </h:form>
+            </div>
+        </div>
+    </h:body>
+</html>
