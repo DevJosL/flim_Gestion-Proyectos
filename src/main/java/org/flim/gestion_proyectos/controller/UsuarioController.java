@@ -50,7 +50,7 @@ public class UsuarioController {
         this.usuarioSeleccionado = null;
     }
 
-    public void eliminarUsuari(){
+    public void eliminarUsuario(){
         logger.info("Usuario a eliminar: " + this.usuarioSeleccionado);
         this.usuarioService.eliminarUsuario(this.usuarioSeleccionado);
         this.usuarios.remove(this.usuarioSeleccionado);
